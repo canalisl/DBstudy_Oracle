@@ -233,3 +233,85 @@ SELECT SEQ_TOPIC.CURRVAL FROM DUAL;	// DUAL : 가상의 표. 시퀀스 값 하�
         3
 ```
 
+
+
+### 8. Table의 분해 조립
+
+1. Table의 분해
+
+   | topic |          |                    |          |       |           |
+   | ----- | -------- | ------------------ | -------- | ----- | --------- |
+   | id    | title    | description        | created  | name  | profile   |
+   | 1     | ORACLE   | ORACLE is ...      | 22/09/01 | bruno | developer |
+   | 2     | MySQL    |                    | 22/09/01 | bruno | developer |
+   | 3     | SEUNGWON | Welcome New Crew!! | 22/09/01 | jack  | DBA       |
+
+이렇게 Table을 생성하면, `bruno`의 `profile`을 변경할 때 1억번 일일이 변경해야 함 > 매우 비효율적
+
+또한, 같은 `developer`라는 직책의 동명이인 `bruno` 가 있는 경우 구분할 수 없음
+
+게다가, 구성원으로서 존재하지만 글은 작성하지 않은 `jack`은 처리할 수 없음
+
+이와 같은 문제를 해결하기 위해 `author`라는 Table을 따로 분리하는 것임
+
+| topic |          |                    |          |           |
+| ----- | -------- | ------------------ | -------- | --------- |
+| id    | title    | description        | created  | author_id |
+| 1     | ORACLE   | ORACLE is ...      | 22/09/01 | 1         |
+| 2     | MySQL    |                    | 22/09/01 | 1         |
+| 3     | SEUNGWON | Welcome New Crew!! | 22/09/01 | 2         |
+
+| author |       |                |                                      |
+| ------ | ----- | -------------- | ------------------------------------ |
+| id     | name  | profile        |                                      |
+| 1      | bruno | developer      |                                      |
+| 2      | jack  | DBA            |                                      |
+| 3      | jenny | data scientist | 존재만 하고 글 작성하지 않은 자 처리 |
+| 4      | bruno | developer      | 동명이인 처리                        |
+
+이렇게 Table을 두 개로 분리하면, `author` 테이블에서 `profile`을 수정하면, `topic` 에서 해당 `author_id` 와 연동된 부분이 자동으로 한 번에 바뀌는 효과가 생김 >> 매우 효율적!!
+
+> But!! 이렇게 분해하면 효율적인 대신 가독성이 떨어짐..
+
+
+
+2. Table의 조립 - `JOIN`
+
+   분해한 Table의 가독성을 높이기 위해 연관 있는 행끼리 붙여 가상의 Table을 생성하는 것이  JOIN이다.
+
+   ```shell
+   SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id;
+   ```
+
+   `LEFT JOIN` : 왼쪽 테이블을 기준으로 오른쪽에 연결할 Table을 붙인다.
+
+   `topic.author_id = author.id` : `topic` 테이블의 `author_id` 와 `author` 테이블의 `id` 값이 같은 것끼리 붙인다.
+
+| topic |          |                    |          |           |      |       |           |
+| ----- | -------- | ------------------ | -------- | --------- | ---- | ----- | --------- |
+| id    | title    | description        | created  | author_id | id   | name  | profile   |
+| 1     | ORACLE   | ORACLE is ...      | 22/09/01 | 1         | 1    | bruno | developer |
+| 2     | MySQL    |                    | 22/09/01 | 1         | 1    | bruno | developer |
+| 3     | SEUNGWON | Welcome New Crew!! | 22/09/01 | 2         | 2    | jack  | DBA       |
+
+여기서, id행이 2개이므로 다른 팀원이 볼 때 헷갈릴 수 있음. 아래와 같이 sql문을 실행하면,
+
+```
+SELECT 
+    T.id TOPIC_ID, 	// 뒤의 TOPIC_ID는 별명
+    title, 
+    name 
+FROM topic T	// topic 테이블을 T라고 부르겠다.
+    LEFT JOIN author A	// author 테이블을 A라고 부르겠다.
+    ON T.author_id = A.id
+;
+```
+
+이렇게 바뀜.
+
+| TOPIC_ID | TITLE    | NAME  |
+| -------- | -------- | ----- |
+| 1        | ORACLE   | bruno |
+| 2        | MySQL    | bruno |
+| 3        | SEUNGWON | jack  |
+
