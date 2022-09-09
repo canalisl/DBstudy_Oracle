@@ -4,7 +4,7 @@
 
 ### 1. Oracle DB에 접속
 
-```shell
+```sql
 > sqlplus
 > Enter user-name: sys AS SYSDBA >> 시스템 DB 관리자 계정으로 로그인
 ```
@@ -13,13 +13,13 @@
 
 ### 2. 유저 생성
 
-```shell
+```sql
 > CREATE USER bruno IDENTIFIED BY [password];
 ```
 
 > ORA-65096 에러 발생
 
-```
+```sql
 ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 다시 CREATE USER bruno IDENTIFIED BY [password];
 ```
@@ -27,7 +27,7 @@ ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
 유저 생성 완료
 But, 아직 권한 없으므로 로그인 안됨
 
-```shell
+```sql
 > exit
 > Enter user-name: sys AS SYSDBA
 > GRANT DBA TO bruno;
@@ -39,7 +39,7 @@ But, 아직 권한 없으므로 로그인 안됨
 
 ### ❗❗❗중요
 
-```shell
+```sql
 > commit;	// 모든 변경사항 뒤에는 커밋 필수!! 나 뿐만 아니라 DB에 접속하는 다른 사람도 볼 수 있게!
 ```
 
@@ -47,7 +47,7 @@ But, 아직 권한 없으므로 로그인 안됨
 
 ### 3. Table 생성
 
-```shell
+```sql
 CREATE TABLE topic (
 	id NUMBER NOT NULL,
 	title VARCHAR2(50) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE topic (
 
 - Table 목록 조회 - Table 제목으로
 
-```shell
+```sql
 SELECT table_name FROM all_tables WHERE OWNER = 'BRUNO';
 > 출력
 TABLE_NAME
@@ -72,7 +72,7 @@ TOPIC
 
 1) Create
 
-   ```shell
+   ```sql
    INSERT INTO topic
    	(id,title,description,created)
    	VALUES
@@ -91,7 +91,7 @@ TOPIC
 
 2. Read
 
-   ```shell
+   ```sql
    SELECT * FROM topic;
    
    SELECT id, title, created FROM topic;
@@ -115,7 +115,7 @@ TOPIC
 
 3. Update
 
-   ```shell
+   ```sql
    UPDATE topic
    	SET
    	title = 'Hmsec',	// 콤마 필수
@@ -126,7 +126,7 @@ TOPIC
 
 4. Delete
 
-   ```shell
+   ```sql
    DELETE FROM topic WHERE id = 1;
    
    DROP TABLE topic;	// 테이블 전체 삭제 > 커밋 필요 x
@@ -136,7 +136,7 @@ TOPIC
 
 ### 5. Primary Key
 
-```shell
+```sql
 CREATE TABLE topic (
 	id NUMBER NOT NULL,
 	title VARCHAR2(50) NOT NULL,
@@ -171,7 +171,7 @@ SELECT id, title FROM topic WHERE id = 2;
 
 Table에 새로운 row 추가할 때...
 
-```shell
+```sql
 INSERT INTO topic
 	(id,title,description,created)
 	VALUES
@@ -182,7 +182,7 @@ INSERT INTO topic
 
 간편한 방법이 없을까? >> 에 대한 해답이 `SEQUENCE`
 
-```shell
+```sql
 CREATE SEQUENCE SEQ_TOPIC;
 INSERT INTO topic
 	(id,title,description,created)
@@ -196,7 +196,7 @@ INSERT INTO topic
 
 그래서 `4. CRUD > 1. Create` 에서 입력한 INSERT문을 다시 입력하면 아래와 같이 할 수 있다.
 
-```shell
+```sql
 INSERT INTO topic
 	(id,title,description,created)
 	VALUES
@@ -217,7 +217,7 @@ INSERT INTO topic
 
 ### 7. 현재 SEQUENCE값 조회
 
-```shell
+```sql
 SELECT SEQ_TOPIC.CURRVAL FROM topic;
 > 출력
    CURRVAL
@@ -279,7 +279,7 @@ SELECT SEQ_TOPIC.CURRVAL FROM DUAL;	// DUAL : 가상의 표. 시퀀스 값 하�
 
    분해한 Table의 가독성을 높이기 위해 연관 있는 행끼리 붙여 가상의 Table을 생성하는 것이  JOIN이다.
 
-   ```shell
+   ```sql
    SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id;
    ```
 
@@ -296,7 +296,7 @@ SELECT SEQ_TOPIC.CURRVAL FROM DUAL;	// DUAL : 가상의 표. 시퀀스 값 하�
 
 여기서, id행이 2개이므로 다른 팀원이 볼 때 헷갈릴 수 있음. 아래와 같이 sql문을 실행하면,
 
-```
+```sql
 SELECT 
     T.id TOPIC_ID, 	// 뒤의 TOPIC_ID는 별명
     title, 
