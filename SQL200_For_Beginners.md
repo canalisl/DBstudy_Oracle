@@ -2,7 +2,7 @@
 
 
 
-### 001 특정 열 선택하기
+### 001 특정 열(COLUMN) 선택하기
 
 ```sql
 SELECT empno, ename, sal
@@ -15,7 +15,7 @@ SELECT empno, ename, sal
 
 
 
-### 002 모든 열 출력하기
+### 002 모든 열(COLUMN) 출력하기
 
 ```sql
 SELECT *
@@ -43,4 +43,55 @@ SELECT empno as 사원번호, ename as 사원이름, sal as "Salary"
 > `사원이름` 을 `사원 이름` 으로 띄워쓰면 에러 뜸
 >
 > `"Salary"` 로 따옴표를 써주면 대소문자 구분 / 그냥 `Salary`로 쓰면 컬럼명 `SALARY` 로 나옴
+
+
+
+### 004 연결 연산자 사용하기(||)
+
+```sql
+SELECT ename || sal
+    FROM emp;
+
+SELECT ename || '의 월급은' || sal || '입니다' as 월급정보
+    FROM emp;
+```
+
+
+
+### 005 중복된 데이터를 제거해서 출력하기(DISTINCT)
+
+```sql
+SELECT DISTINCT job
+    FROM emp;
+    
+SELECT UNIQUE job
+    FROM emp;
+```
+
+> 둘이 실행결과 같음
+
+
+
+### 006 데이터를 정렬해서 출력하기(ORDER BY)
+
+```sql
+SELECT ename, sal
+    FROM emp
+    ORDER BY sal ASC;
+    
+# 별칭 사용해서 정렬하기
+SELECT ename, sal as 월급
+    FROM emp
+    ORDER BY 월급 ASC;
+
+# 여러 기준으로 정렬하기
+SELECT ename, deptno, sal
+    FROM emp
+    ORDER BY deptno ASC, sal DESC;	# 먼저 부서 번호 오름차순으로 정렬하고, 부서 번호같으면 월급 높은 순으로 정렬
+    
+# ORDER BY절에 컬럼명 대신 숫자 적기
+SELECT ename, deptno, sal
+    FROM emp
+    ORDER BY 2 ASC, 3 DESC;
+```
 
