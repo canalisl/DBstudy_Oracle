@@ -95,3 +95,39 @@ SELECT ename, deptno, sal
     ORDER BY 2 ASC, 3 DESC;
 ```
 
+
+
+### 007 WHERE절 배우기 - 1 (숫자 데이터 검색)
+
+```sql
+SELECT ename as 이름, sal as 월급, job as 직업
+    FROM emp
+    WHERE sal >= 3000;
+
+# WHERE절에 별칭 사용 -> 에러
+SELECT ename as 이름, sal as 월급, job as 직업	# 실행순서 3
+    FROM emp	# 실행순서 1
+    WHERE 월급 >= 3000;	# 실행순서 2 (아직 '월급' 정의되기 전)
+```
+
+
+
+### 008 WHERE절 배우기 - 2 (문자와 날짜 검색)
+
+```sql
+# 사원 이름으로 제한
+SELECT ename, sal, job, hiredate, deptno
+    FROM emp
+    WHERE ename = 'SCOTT';
+
+# 날짜로 제한하기 전에 현재 접속한 세션의 날짜 형식 확인하기
+SELECT *
+    FROM NLS_SESSION_PARAMETERS
+    WHERE PARAMETER = 'NLS_DATE_FORMAT';
+
+# 입사일로 제한
+SELECT ename, sal, job, hiredate, deptno
+    FROM emp
+    WHERE hiredate = '81/11/17';	# RR/MM/DD 형식
+```
+
