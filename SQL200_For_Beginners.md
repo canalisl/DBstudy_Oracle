@@ -257,3 +257,55 @@ SELECT ename, sal, job
     WHERE job = 'SALESMAN' AND sal >= 1200;
 ```
 
+
+
+### 016 대소문자 변환 함수 배우기 (UPPER, LOWER, INITCAP)
+
+```sql
+SELECT UPPER(ename), LOWER(ename), INITCAP(ename)
+    FROM emp;
+
+# 이름이 대문자인지 소문자인지 확실하지 않을 때 사용
+SELECT ename, sal
+    FROM emp
+    WHERE LOWER(ename) = 'scott';
+```
+
+
+
+### 017 문자에서 특정 철자 추출하기 (SUBSTR)
+
+```sql
+# 1번째 위치부터, 3개의 문자 선택
+SELECT SUBSTR('SMITH', 1, 3)	# SMI
+    FROM DUAL;
+
+SELECT SUBSTR('SMITH', -2, 2)	# TH
+    FROM DUAL;
+
+# 2번째부터 끝까지
+SELECT SUBSTR('SMITH', 2)	# MITH
+    FROM DUAL;
+```
+
+> 인덱스가 아닌 그냥 위치임. 1번째는 제일 앞 문자!
+>
+> `DUAL` 은 1개의 `COLUMN` 과 1개의 `ROW` (더미데이터) 로 이루어진 가상의 테이블 - 함수를 실행할 때 임시로 사용하는 용도
+
+
+
+### 018 문자열의 길이를 출력하기 (LENGTH)
+
+```sql
+SELECT ename, LENGTH(ename)
+    FROM emp;
+    
+# 한글도 됨
+SELECT LENGTH('가나다라마바사아')
+    FROM DUAL;
+    
+# 바이트로 출력
+SELECT LENGTHB('가나다라마바사아')	# 한글은 한글자에 3바이트 -> 24 출력
+    FROM DUAL;
+```
+
