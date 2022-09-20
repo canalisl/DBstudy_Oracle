@@ -309,3 +309,38 @@ SELECT LENGTHB('가나다라마바사아')	# 한글은 한글자에 3바이트 -
     FROM DUAL;
 ```
 
+
+
+### 019 문자에서 특정 철자의 위치 출력하기 (INSTR)
+
+```sql
+SELECT INSTR('SMITH', 'M')
+    FROM DUAL;
+// 2
+
+# 문자열에서 특정 문자열만 추출하기	abcdefg@naver.com -> naver.com 추출
+SELECT SUBSTR('abcdefg@naver.com', INSTR('abcdefg@naver.com', '@') + 1)
+	FROM DUAL;
+	
+# naver만 잘라내기
+SELECT SUBSTR('abcdefg@naver.com', INSTR('abcdefg@naver.com', '@') + 1, LENGTH('naver'))
+	FROM DUAL;
+```
+
+
+
+### 020 특정 철자를 다른 철자로 변경하기 (REPLACE)
+
+```sql
+SELECT ename, REPLACE(sal, 0, '*')
+	FROM emp;
+	
+# 월급의 숫자 0~3을 *로 출력
+SELECT ename, REGEXP_REPLACE(sal, '[0-3]', '*') as 월급
+	FROM emp;
+
+# 이름의 두번째 글자를 '밖'으로 출력
+SELECT REPLACE(ename, SUBSTR(ename, 2, 1), '밖') as 바뀐이름
+	From emp;
+```
+
