@@ -344,3 +344,89 @@ SELECT REPLACE(ename, SUBSTR(ename, 2, 1), '밖') as 바뀐이름
 	From emp;
 ```
 
+
+
+### 021 특정 철자를 N개 만큼 채우기 (LPAD, RPAD)
+
+```sql
+# 데이터 시각화하기에 좋은 쿼리
+SELECT ename, LPAD(sal, 10, '$') as 왼쪽돈, RPAD(sal, 10, '*') as 오른쪽돈
+    FROM emp;
+
+SELECT ename, sal, LPAD('★', round(sal/200), '★') as bar_chart
+    FROM emp;
+```
+
+
+
+### 022 특정 철자 잘라내기 (TRIM, RTRIM, LTRIM)
+
+```sql
+SELECT 'smith', LTRIM('smith', 's'), RTRIM('smith', 'h'), TRIM('s' from 'smiths')
+    FROM DUAL;
+
+# 새로운 데이터 삽입
+INSERT INTO emp(empno, ename, sal, job, deptno)
+    VALUES(8291, 'JACK ', 3000, 'DEVLEOPER', 30);	# 이름 옆에 공백 추가
+commit;
+
+SELECT ename, sal
+    FROM emp
+    WHERE ename = 'JACK';	# 아무것도 뜨지 않음 / 공백 몇개인지 모르기(가정) 때문
+# 해결    
+SELECT ename, sal
+    FROM emp
+    WHERE TRIM(ename) = 'JACK';
+
+DELETE FROM emp
+	WHERE TRIM(ename) = 'JACK';
+commit;
+```
+
+
+
+### 023 반올림해서 출력하기 (ROUND)
+
+```sql
+# .의 위치가 0임
+SELECT '876.567' as 숫자, ROUND(876.567, 1)	# 소수점 뒤 첫숫자 '다음'부터 반올림	876.6
+    FROM DUAL;
+
+SELECT '876.567' as 숫자, ROUND(876.567, 2)	# 876.57
+    FROM DUAL;
+
+SELECT '876.567' as 숫자, ROUND(876.567, 0)	# 877 -> 소수점 뒤 첫숫자 5(소수점 첫째자리)에서 반올림
+    FROM DUAL;
+# 동일
+SELECT '876.567' as 숫자, ROUND(876.567)	# 877
+    FROM DUAL;
+    
+SELECT '876.567' as 숫자, ROUND(876.567, -1)	# 880 -> 소수점 전 첫숫자(6)에서 반올림
+    FROM DUAL;
+    
+SELECT '876.567' as 숫자, ROUND(876.567, -2)	# 900
+    FROM DUAL;
+```
+
+❗ 같이 들어가는 인자가 `양수` 이거나 `0` 일때, 그 다음위치 숫자부터 반올림
+
+❗ `음수` 일때 그 숫자부터 바로 반올림
+
+
+
+### 024 숫자를 버리고 출력하기 (TRUNC)
+
+```sql
+SELECT '876.567' as 숫자, TRUNC(876.567, 1)	# 876.5 -> 소수점 뒤 첫숫자 '다음'부터 버림!
+    FROM DUAL;
+    
+SELECT '876.567' as 숫자, TRUNC(876.567, -1)	# 870 -> 소수점 전 첫숫자부터 바로 버림!
+    FROM DUAL;
+    
+SELECT '876.567' as 숫자, TRUNC(876.567)	# 876
+    FROM DUAL;
+```
+
+❗ 같이 들어가는 인자가 `양수` 이거나 `0` 일때, 그 다음위치 숫자부터 버림
+
+❗ `음수` 일때 그 숫자부터 바로 버림
