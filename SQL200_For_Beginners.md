@@ -430,3 +430,40 @@ SELECT '876.567' as 숫자, TRUNC(876.567)	# 876
 ❗ 같이 들어가는 인자가 `양수` 이거나 `0` 일때, 그 다음위치 숫자부터 버림
 
 ❗ `음수` 일때 그 숫자부터 바로 버림
+
+
+
+### 025 나눈 나머지 값 출력하기 (MOD)
+
+```sql
+SELECT MOD(10, 3)	# 1
+    FROM DUAL;
+    
+SELECT empno, MOD(empno, 2)
+	FROM emp;
+	
+SELECT empno, ename
+	FROM emp
+	WHERE MOD(empno, 2) = 0;
+	
+SELECT FLOOR(10/3)	# 3.333 -> 3과 4 사이에서 제일 바닥(FLOOR)에 있는 값 출력 -> 3
+    FROM DUAL;
+```
+
+
+
+### 026 날짜 간 개월 수 출력하기 (MONTHS_BETWEEN)
+
+```sql
+# 자동으로 특정날~지금 까지 기간 계산
+SELECT ename, MONTHS_BETWEEN(sysdate, hiredate)
+    FROM emp;
+
+# 특정한 두 날 사이 계산
+SELECT TO_DATE('2021-09-22', 'YYYY-MM-DD') - TO_DATE('2018-10-01', 'YYYY-MM-DD')
+	FROM DUAL;
+# 주수로 환산 / 작은 따옴표 쓰면 에러남. AS는 무조건 쌍따옴표!!
+SELECT ROUND((TO_DATE('2021-09-22', 'YYYY-MM-DD') - TO_DATE('2018-10-01', 'YYYY-MM-DD')) / 7) AS "총 주수"
+	FROM DUAL;
+```
+
