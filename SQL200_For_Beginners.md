@@ -467,3 +467,58 @@ SELECT ROUND((TO_DATE('2021-09-22', 'YYYY-MM-DD') - TO_DATE('2018-10-01', 'YYYY-
 	FROM DUAL;
 ```
 
+> RRRR과 YYYY는 차이 없음!! RR과 YY만 다른것!!
+
+
+
+### 027 개월 수 더한 날짜 출력하기 (ADD_MONTHS)
+
+```sql
+# 100달 뒤의 날짜
+SELECT ADD_MONTHS(TO_DATE('2022-09-23', 'RRRR-MM-DD'), 100)
+    FROM DUAL;
+# 100일 뒤의 날짜    
+SELECT TO_DATE('2022-09-23', 'RRRR-MM-DD') + 100
+    FROM DUAL;
+# 100달 뒤의 날짜    
+SELECT TO_DATE('2022-09-23', 'RRRR-MM-DD') + interval '100' month
+    FROM DUAL;
+# 2년 2개월 뒤의 날짜    
+SELECT TO_DATE('2022-09-23', 'RRRR-MM-DD') + interval '2-2' year to month
+    FROM DUAL;    
+# 2년 5개월 뒤의 날짜
+SELECT TO_DATE('2022-09-23', 'RRRR-MM-DD') + TO_YMINTERVAL('2-5') as 날짜
+    FROM DUAL;
+```
+
+
+
+### 028 특정 날짜 뒤에 오는 요일 날짜 출력하기 (NEXT_DAY)
+
+```sql
+SELECT '2022/09/23' as 날짜, NEXT_DAY('2022-09-23', '목요일')
+    FROM DUAL;
+    
+SELECT SYSDATE as "오늘 날짜"
+    FROM DUAL;
+    
+SELECT NEXT_DAY(ADD_MONTHS('2022-09-23', 100), '목요일')
+    FROM DUAL;    
+```
+
+
+
+### 029 특정 날짜가 있는 달의 마지막 날짜 출력하기 (LAST_DAY)
+
+```sql
+SELECT '2022/12/23' as 날짜, LAST_DAY('2022/12/23') as "마지막 날짜"
+    FROM DUAL;
+# 이달 말일까지 남은 일수
+SELECT LAST_DAY(SYSDATE) - SYSDATE as "남은 날짜"
+    FROM DUAL;
+    
+SELECT ename, hiredate, LAST_DAY(hiredate)
+    FROM emp
+    WHERE ename = 'KING';
+```
+
