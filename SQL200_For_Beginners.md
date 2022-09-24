@@ -522,3 +522,32 @@ SELECT ename, hiredate, LAST_DAY(hiredate)
     WHERE ename = 'KING';
 ```
 
+
+
+### 030 문자형으로 데이터 유형 변환하기 (TO_CHAR, EXTRACT)
+
+```sql
+SELECT ename, TO_CHAR(hiredate, 'DAY') as 요일, TO_CHAR(sal, '999,999') as 월급
+    FROM emp
+    WHERE ename = 'SCOTT';
+    
+SELECT ename, TO_CHAR(hiredate, 'YYYY') as 연도, TO_CHAR(hiredate, 'MM') as 달,
+    TO_CHAR(hiredate, 'DD') as 일, TO_CHAR(hiredate, 'DAY') as 요일
+    FROM emp
+    WHERE ename = 'SCOTT';
+
+# 81년도에 입사한 사원의 이름과 입사일 출력    
+SELECT ename, hiredate
+    FROM emp
+    WHERE TO_CHAR(hiredate, 'YYYY') = '1981';
+
+SELECT ename as 이름, EXTRACT(year from hiredate) as 연도,
+                        EXTRACT(month from hiredate) as 달,
+                        EXTRACT(day from hiredate) as 요일
+    FROM emp;
+    
+# 앞에 원화단위 표시
+SELECT ename as 이름, TO_CHAR(sal*8700, 'L999,999,999') as 월급
+    FROM emp;
+```
+
