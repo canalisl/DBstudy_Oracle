@@ -551,3 +551,25 @@ SELECT ename as 이름, TO_CHAR(sal*8700, 'L999,999,999') as 월급
     FROM emp;
 ```
 
+
+
+### 031 날짜형으로 데이터 유형 변환하기 (TO_DATE)
+
+```sql
+SELECT ename, hiredate
+    FROM emp
+    WHERE hiredate = TO_DATE('81/11/17', 'RR/MM/DD');
+```
+
+- 이렇게 하면 날짜 형식과 관련 없이 검색 가능!!
+
+
+
+### 032 암시적 형 변환 이해하기
+
+```sql
+SELECT ename, sal
+    FROM emp
+    WHERE sal = '3000';	# 오라클이 알아서 문자형을 숫자형으로 변환해 비교함
+```
+
