@@ -573,3 +573,24 @@ SELECT ename, sal
     WHERE sal = '3000';	# 오라클이 알아서 문자형을 숫자형으로 변환해 비교함
 ```
 
+
+
+### 033 NULL 값 대신 다른 데이터 출력하기 (NVL, NVL2)
+
+```sql
+SELECT ename, comm, NVL(comm, 0)	# 기준값 / 기준값이 NULL일 때
+    FROM emp;
+    
+SELECT ename, sal, comm, sal+comm
+    FROM emp
+    WHERE job IN ('SALESMAN', 'ANALYST');
+    
+SELECT ename, sal, comm, NVL(comm, 0), sal+NVL(comm, 0)
+    FROM emp
+    WHERE job IN ('SALESMAN', 'ANALYST');
+
+SELECT ename, sal, comm, NVL2(comm, sal+comm, sal)	# 기준값 / 기준값이 NULL이 아닐 때 / 기준값이 NULL일 때
+    FROM emp
+    WHERE job IN ('SALESMAN', 'ANALYST');
+```
+
