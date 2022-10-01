@@ -594,3 +594,18 @@ SELECT ename, sal, comm, NVL2(comm, sal+comm, sal)	# 기준값 / 기준값이 NU
     WHERE job IN ('SALESMAN', 'ANALYST');
 ```
 
+
+
+### 034 IF문을 SQL로 구현하기 1 (DECODE)
+
+```sql
+SELECT ename, deptno, DECODE(deptno, 10, 300, 20, 400, 0) as 보너스	# default값(else) -> 0
+    FROM emp;
+    
+SELECT empno, mod(empno, 2), DECODE(mod(empno, 2), 0, '짝수', 1, '홀수') as 보너스	# default 없음
+    FROM emp;
+    
+SELECT ename, job, DECODE(job, 'SALESMAN', 5000, 2000) as 보너스	# if 다음에 바로 else
+    FROM emp;
+```
+
