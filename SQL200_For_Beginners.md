@@ -609,3 +609,26 @@ SELECT ename, job, DECODE(job, 'SALESMAN', 5000, 2000) as 보너스	# if 다음�
     FROM emp;
 ```
 
+
+
+### 035 IF문을 SQL로 구현하기 2 (CASE)
+
+```sql
+SELECT ename, job, sal, CASE WHEN sal >= 3000 THEN 500
+                            WHEN sal >= 2000 THEN 300
+                            WHEN sal >= 1000 THEN 200
+                            ELSE 0 END AS BONUS
+    FROM emp
+    WHERE job IN ('SALESMAN', 'ANALYST');
+    
+SELECT ename, job, comm, CASE WHEN comm IS NULL THEN 500
+                                ELSE 0 END AS BONUS
+    FROM emp
+    WHERE job IN ('SALESMAN', 'ANALYST');
+    
+SELECT ename, job, CASE WHEN job IN ('SALESMAN', 'ANALYST') THEN 500
+                    WHEN job IN ('CLERK', 'MANAGER') THEN 400
+                    ELSE 0 END AS 보너스
+    FROM emp;
+```
+
