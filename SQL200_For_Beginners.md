@@ -632,3 +632,25 @@ SELECT ename, job, CASE WHEN job IN ('SALESMAN', 'ANALYST') THEN 500
     FROM emp;
 ```
 
+
+
+### 036 최대값 출력하기(MAX)
+
+```sql
+SELECT MAX(sal)
+    FROM emp;
+    
+SELECT MAX(sal)
+    FROM emp
+    WHERE job = 'SALESMAN';
+    
+SELECT job, MAX(sal)
+    FROM emp
+    WHERE job = 'SALESMAN'
+    GROUP BY job;	# select로 job 컬럼의 여러 행이 출력되려고 하는데 Max값은 하나 > 데이터 그룹핑 필요
+    
+SELECT deptno, MAX(sal)
+    FROM emp
+    GROUP BY deptno;
+```
+
