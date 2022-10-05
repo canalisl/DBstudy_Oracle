@@ -654,3 +654,28 @@ SELECT deptno, MAX(sal)
     GROUP BY deptno;
 ```
 
+
+
+### 037 최소값 출력하기 (MIN)
+
+```sql
+SELECT MIN(sal)
+    FROM emp
+    WHERE job = 'SALESMAN';
+    
+SELECT job, MIN(sal) 최소월급
+    FROM emp
+    GROUP BY job
+    ORDER BY 최소월급 DESC;	# ORDER BY는 항상 마지막에!
+    
+SELECT MIN(sal)
+    FROM emp
+    WHERE 1 = 2;
+
+SELECT job, MIN(sal) 최소월급
+    FROM emp
+    WHERE job != 'SALESMAN'
+    GROUP BY job
+    ORDER BY 최소월급 DESC;
+```
+
