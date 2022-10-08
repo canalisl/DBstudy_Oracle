@@ -679,3 +679,15 @@ SELECT job, MIN(sal) 최소월급
     ORDER BY 최소월급 DESC;
 ```
 
+
+
+### 038 평균값 출력하기 (AVG)
+
+```sql
+SELECT AVG(comm)	# 결과가 같아도 NULL을 제외하고 계산하므로 성능이 더 좋음(빠름).
+	FROM emp;
+	
+SELECT AVG(NVL(comm, 0))	# NULL을 0으로 치환해서 결과값에 포함시킴
+	FROM emp;
+```
+
