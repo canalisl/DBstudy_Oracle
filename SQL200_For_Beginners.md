@@ -691,3 +691,40 @@ SELECT AVG(NVL(comm, 0))	# NULL을 0으로 치환해서 결과값에 포함시�
 	FROM emp;
 ```
 
+
+
+### 039 토탈값 출력하기 (SUM)
+
+```sql
+SELECT deptno, SUM(sal)
+    FROM emp
+    GROUP by deptno;
+    
+SELECT job, SUM(sal)
+    FROM emp
+    GROUP BY job
+    ORDER BY SUM(sal) DESC;
+    
+SELECT job, SUM(sal)
+    FROM emp
+    WHERE SUM(sal) >= 4000
+    GROUP BY job;
+    
+SELECT job, SUM(sal)
+    FROM emp
+    GROUP BY job
+    HAVING SUM(sal) >= 4000;
+    
+SELECT job, SUM(sal)
+    FROM emp
+    WHERE job != 'SALESMAN'
+    GROUP BY job
+    HAVING SUM(sal) >= 4000;
+
+SELECT job as 직업, SUM(sal)
+    FROM emp
+    WHERE job != 'SALESMAN'
+    GROUP BY 직업
+    HAVING SUM(sal) >= 4000;
+```
+
