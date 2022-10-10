@@ -728,3 +728,16 @@ SELECT job as 직업, SUM(sal)
     HAVING SUM(sal) >= 4000;
 ```
 
+
+
+### 040 건수 출력하기 (COUNT)
+
+```sql
+SELECT COUNT(empno)
+    FROM emp;
+
+SELECT COUNT(comm)
+    FROM emp;
+```
+
+- COUNT는 NULL을 제외하고 센다. 평균값 등을 계산할 때 유의하자.
