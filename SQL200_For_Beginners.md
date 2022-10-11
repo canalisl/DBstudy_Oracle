@@ -741,3 +741,19 @@ SELECT COUNT(comm)
 ```
 
 - COUNT는 NULL을 제외하고 센다. 평균값 등을 계산할 때 유의하자.
+
+
+
+### 041 데이터 분석 함수로 순위 출력하기 - (1) RANK
+
+```sql
+SELECT ename, job, sal, RANK() over (ORDER BY sal DESC) 순위
+    FROM emp
+    WHERE job in ('ANALYST', 'MANAGER');
+    
+SELECT ename, sal, job, RANK() over (PARTITION BY job ORDER BY sal DESC) as 순위
+    FROM emp;
+```
+
+
+
